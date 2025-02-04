@@ -53,7 +53,7 @@ public class TransferPosition extends Command {
       }
     else {
         arm.StopArm(); //if at limit switch then stop motor
-      }
+      } 
   }
 
   // Called once the command ends or is interrupted.
