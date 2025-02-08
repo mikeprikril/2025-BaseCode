@@ -41,7 +41,8 @@ public final class Constants
     public static final double TeleopAutoForwardSpeed = 1.5;
     //LimeLight tracking values
     public static final double NoteKP = 0.05;//(Temp constant for AutoAlignReefCommand)
-    
+
+    public static final boolean turningMode = false; //true for joystick orientated driving, false for standard driving
   }
 
   public static class OperatorConstants
@@ -67,8 +68,8 @@ public final class Constants
     public static final int elevatorTopLimitSwitchIO = 2;
 
     public static final int AlmostDownValue = 10; //slow down when close to bottom
-    public static final int AlmostUpValue = 58; //slow down when close to top
-    public static final int UpLimit = 62; //top limit for elevator
+    public static final int AlmostUpValue = 61; //slow down when close to top
+    public static final int UpLimit = 65; //top limit for elevator
     public static final double SlowDown = 0.2; //slow down to 20% if close to limit
 
     public static final double deadband = 3;
@@ -101,9 +102,9 @@ public final class Constants
     public static final int armBottomLimitSwitchIO = 3;
     public static final int armTopLimitSwitchIO = 4;
 
-    public static final int AlmostUpValue = 10; //slow down when close to top
-    public static final int AlmostDownValue = 55; //slow down when close to tray at bottom
-    public static final int ArmAtTray = 60; //value of encoder when arm is vertically down at tray
+    public static final int AlmostUpValue = 4; //slow down when close to top
+    public static final int AlmostDownValue = 58; //slow down when close to tray at bottom
+    public static final int ArmAtTray = 63; //value of encoder when arm is vertically down at tray
     public static final double SlowDown = 0.2; //slow down by 20% if close to limit
 
     public static final double ArmDownSpeed = -.4;
@@ -115,7 +116,7 @@ public final class Constants
     public static final int gripperInButton = 5;
     public static final int gripperOutButton = 6;
 
-    public static final double goSlow = .5; //slow down arm joystick input
+    public static final double goSlow = .8; //slow down arm joystick input
   }
 
 

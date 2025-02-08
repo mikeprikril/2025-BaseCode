@@ -6,6 +6,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.ArmSubsytem;
 import frc.robot.subsystems.ElevatorSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -13,6 +15,7 @@ public class ManualElevatorCommand extends Command {
   /** Creates a new ManualElevatorCommand. */
   public final ElevatorSubsystem elevator;
   public final CommandXboxController elevatorJoystick;
+
 
   public ManualElevatorCommand(ElevatorSubsystem m_elevator, CommandXboxController m_elevatorController) {
   elevator = m_elevator;

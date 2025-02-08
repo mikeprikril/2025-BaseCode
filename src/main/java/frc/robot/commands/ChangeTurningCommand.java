@@ -9,8 +9,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import frc.robot.Constants.DrivebaseConstants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 public class ChangeTurningCommand extends Command {
   /** Creates a new ChangeTurningCommand. */
   private final SwerveSubsystem swerve;
@@ -21,18 +23,39 @@ public class ChangeTurningCommand extends Command {
 
     addRequirements(swerve);
   }
-  
+  boolean mode = Constants.DrivebaseConstants.turningMode;
+  public final SwerveSubsystem drivebase = RobotContainer.drivebase;
+
+  final CommandXboxController driverXbox = RobotContainer.driverXbox;
+  final CommandXboxController operatorXbox = RobotContainer.operatorXbox;
+
+ // Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
+ //       () -> MathUtil.applyDeadband(-driverXbox.getLeftY(), OperatorConstants.DEADBAND),
+ //       () -> MathUtil.applyDeadband(-driverXbox.getLeftX(), OperatorConstants.DEADBAND),
+  //      () -> -driverXbox.getRightX(),
+ //       () -> -driverXbox.getRightY());
+
+ //   Command standardDrive = drivebase.driveCommand(
+ //       () -> MathUtil.applyDeadband(-driverXbox.getLeftY(), OperatorConstants.DEADBAND),
+ //       () -> MathUtil.applyDeadband(-driverXbox.getLeftX(), OperatorConstants.DEADBAND),
+ //       () -> MathUtil.applyDeadband(Constants.DrivebaseConstants.SlowDownTurn*-driverXbox.getRightX(), OperatorConstants.DEADBAND));
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
-
+  
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     //code HERREEE REMEMBERRRRR
-    
-    }
+    //if (mode=true) {
+    //  drivebase.setDefaultCommand(driveFieldOrientedDirectAngle);
+    //  mode = false;
+  //} else {
+  //  drivebase.setDefaultCommand(standardDrive);
+  //  mode = true;
+  };
+ 
   
 
   // Called once the command ends or is interrupted.

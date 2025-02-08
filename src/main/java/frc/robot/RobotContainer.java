@@ -42,15 +42,15 @@ import swervelib.SwerveInputStream;
  */
 public class RobotContainer
 {
-
+  
   // Joysticks
-  final CommandXboxController driverXbox = new CommandXboxController(Constants.OperatorConstants.DriverUSBPort);
-  final CommandXboxController operatorXbox = new CommandXboxController(Constants.OperatorConstants.OperatorUSBPort);
+  public final static CommandXboxController driverXbox = new CommandXboxController(Constants.OperatorConstants.DriverUSBPort);
+  public final static CommandXboxController operatorXbox = new CommandXboxController(Constants.OperatorConstants.OperatorUSBPort);
 
   // The robot's subsystems and commands are defined here...
 
   //Subsystems
-  private final SwerveSubsystem drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(), "swerve/neo"));
+  public final static SwerveSubsystem drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(), "swerve/neo"));
   private final ElevatorSubsystem elevator = new ElevatorSubsystem();
   private final ArmSubsytem arm = new ArmSubsytem();
 
@@ -108,7 +108,7 @@ public class RobotContainer
     changeTurning = new ChangeTurningCommand(drivebase, driverXbox);
 
     autoTransfer = new SequentialCommandGroup(transfer, bumpDown, armReady); //sequential command group for auto transfer
-
+    
 
 
     // Configure the trigger bindings
@@ -127,8 +127,9 @@ public class RobotContainer
         () -> MathUtil.applyDeadband(-driverXbox.getLeftX(), OperatorConstants.DEADBAND),
         () -> MathUtil.applyDeadband(Constants.DrivebaseConstants.SlowDownTurn*-driverXbox.getRightX(), OperatorConstants.DEADBAND));
     
-    //drivebase.setDefaultCommand(standardDrive);
-    drivebase.setDefaultCommand(driveFieldOrientedDirectAngle);
+    drivebase.setDefaultCommand(standardDrive);
+    //drivebase.setDefaultCommand(driveFieldOrientedDirectAngle);
+    
   }
 
   /**
@@ -141,13 +142,13 @@ public class RobotContainer
   private void configureBindings()
   {
     Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
-
+  
    
    // Default Commands
     //drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
     elevator.setDefaultCommand(manualElevator); //should these be in the section above the bracket?
     arm.setDefaultCommand(manualArm);
-   
+  
    
   // Button Mapping
       driverXbox.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
@@ -161,7 +162,7 @@ public class RobotContainer
    
 
   }
-
+  
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
