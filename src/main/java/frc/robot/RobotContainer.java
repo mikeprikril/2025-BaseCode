@@ -155,7 +155,8 @@ public class RobotContainer
 
       driverXbox.leftBumper().whileTrue(Commands.none());
       driverXbox.rightBumper().onTrue(Commands.none());
-      driverXbox.rightStick().onTrue(changeTurning);//On click change turning modes(W.I.P.)
+      //driverXbox.rightStick().onTrue(changeTurning);//On click change turning modes(W.I.P.)
+      driverXbox.b().onTrue(AlignReef);
       //operatorXbox.back().onTrue(autoTransfer);
    
 
