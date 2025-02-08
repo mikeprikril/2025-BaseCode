@@ -37,6 +37,11 @@ public final class Constants
 
     // Hold time on motor brakes when disabled
     public static final double WHEEL_LOCK_TIME = 10; // seconds
+    public static final double SlowDownTurn = 1; //slow down turn to this amount
+    public static final double TeleopAutoForwardSpeed = 1.5;
+    //LimeLight tracking values
+    public static final double NoteKP = 0.05;//(Temp constant for AutoAlignReefCommand)
+    
   }
 
   public static class OperatorConstants

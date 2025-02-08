@@ -7,6 +7,7 @@ package frc.robot;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -22,7 +23,9 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ArmReady;
 import frc.robot.commands.AutoElevatorCommand;
 import frc.robot.commands.BumpDown;
+import frc.robot.commands.ChangeTurningCommand;
 import frc.robot.commands.GetCoral;
+import frc.robot.commands.AutoAlignReefCommand;
 import frc.robot.commands.ManualArmCommand;
 import frc.robot.commands.ManualElevatorCommand;
 import frc.robot.commands.TransferPosition;
@@ -54,11 +57,15 @@ public class RobotContainer
   // Commands
   private final ManualElevatorCommand manualElevator;
   private final ManualArmCommand manualArm;
-  private final AutoElevatorCommand autoElevator;;
+  private final AutoElevatorCommand autoElevator;
+  private final AutoAlignReefCommand AlignReef;
+  private final ChangeTurningCommand changeTurning;
   private final TransferPosition transfer;
   private final BumpDown bumpDown;
   private final ArmReady armReady;
   private final GetCoral getCoral;
+  
+  
 
 
   private final SequentialCommandGroup autoTransfer;
@@ -73,6 +80,8 @@ public class RobotContainer
                                                             .deadband(OperatorConstants.DEADBAND)
                                                             .scaleTranslation(0.8)
                                                             .allianceRelativeControl(true);
+
+
 
 
 
@@ -94,8 +103,9 @@ public class RobotContainer
     transfer = new TransferPosition(elevator, arm, operatorXbox);
     bumpDown = new BumpDown(elevator, arm, operatorXbox);
     armReady = new ArmReady(elevator, arm, operatorXbox);
-
+    AlignReef = new AutoAlignReefCommand(drivebase, driverXbox);
     getCoral = new GetCoral(elevator, arm, operatorXbox);
+    changeTurning = new ChangeTurningCommand(drivebase, driverXbox);
 
     autoTransfer = new SequentialCommandGroup(transfer, bumpDown, armReady); //sequential command group for auto transfer
 
@@ -105,6 +115,20 @@ public class RobotContainer
     configureBindings();
     DriverStation.silenceJoystickConnectionWarning(true);
     NamedCommands.registerCommand("test", Commands.print("I EXIST"));
+    
+    Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
+        () -> MathUtil.applyDeadband(-driverXbox.getLeftY(), OperatorConstants.DEADBAND),
+        () -> MathUtil.applyDeadband(-driverXbox.getLeftX(), OperatorConstants.DEADBAND),
+        () -> -driverXbox.getRightX(),
+        () -> -driverXbox.getRightY());
+
+    Command standardDrive = drivebase.driveCommand(
+        () -> MathUtil.applyDeadband(-driverXbox.getLeftY(), OperatorConstants.DEADBAND),
+        () -> MathUtil.applyDeadband(-driverXbox.getLeftX(), OperatorConstants.DEADBAND),
+        () -> MathUtil.applyDeadband(Constants.DrivebaseConstants.SlowDownTurn*-driverXbox.getRightX(), OperatorConstants.DEADBAND));
+    
+    //drivebase.setDefaultCommand(standardDrive);
+    drivebase.setDefaultCommand(driveFieldOrientedDirectAngle);
   }
 
   /**
@@ -120,8 +144,8 @@ public class RobotContainer
 
    
    // Default Commands
-    drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
-    elevator.setDefaultCommand(manualElevator);
+    //drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity);
+    elevator.setDefaultCommand(manualElevator); //should these be in the section above the bracket?
     arm.setDefaultCommand(manualArm);
    
    
@@ -131,7 +155,7 @@ public class RobotContainer
 
       driverXbox.leftBumper().whileTrue(Commands.none());
       driverXbox.rightBumper().onTrue(Commands.none());
-
+      driverXbox.rightStick().onTrue(changeTurning);//On click change turning modes(W.I.P.)
       //operatorXbox.back().onTrue(autoTransfer);
    
 
